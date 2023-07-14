@@ -37,12 +37,12 @@ INSTALLED_APPS = [
     
     # 3erd party apps
     'django_filters',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
-    # 'django.contrib.sites',
-    # 'allauth.socialaccount.providers.github',
-    # 'allauth.socialaccount.providers.google',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'django.contrib.sites',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
 ]
 
 SITE_ID = 1

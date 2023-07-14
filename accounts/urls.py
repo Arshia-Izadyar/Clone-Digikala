@@ -9,7 +9,7 @@ urlpatterns = [
     path('profile/addr/', UserCreateAddress.as_view(), name='address-create'),
     path('profile/addr/<int:pk>/update/', UserUpdateAddress.as_view(), name='address-update'),
     path('profile/addr/<int:pk>/delete/', UserDeleteAddress.as_view(), name='address-delete'),
-    # path('accounts/', include('allauth.urls')),
+    
     
 
     
