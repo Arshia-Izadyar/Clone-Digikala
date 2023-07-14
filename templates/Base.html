@@ -7,13 +7,13 @@
     <title>{% block title %}{% endblock title %}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'css/Base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Base.css' %}">
 </head>
 <body>
 
 <nav class="navbar">
         <ul class="nav-list">
-            <li class="nav-item"><a href="#">Home</a></li>
+            <li class="nav-item"><a href="{% url 'product:home-page' %}">Home</a></li>
 
             {% if user.is_authenticated %}
                 <li class="nav-item"><a href="#">profile</a></li>
