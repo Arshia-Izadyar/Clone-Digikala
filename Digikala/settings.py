@@ -16,7 +16,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-AUTH_USER_MODEL = "account.User"
+AUTH_USER_MODEL = "accounts.User"
 
 
 # Application definition
@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     
     
-    "account.apps.AccountConfig",
+    "accounts.apps.AccountConfig",
     "product.apps.ProductConfig",
     "basket.apps.BasketConfig",
     
@@ -84,7 +84,7 @@ WSGI_APPLICATION = "Digikala.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'digikala1', 
+        'NAME': 'digikala2', 
         'USER': 'arshia', 
         'PASSWORD': 'a123',
         'HOST': '127.0.0.1', 
