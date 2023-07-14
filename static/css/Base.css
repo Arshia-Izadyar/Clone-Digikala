@@ -65,3 +65,31 @@
     font-weight: bold;
   }
   
+
+  .input-field {
+    margin-bottom: 10px;
+  }
+  
+  .input-field input[type="text"],
+  .input-field input[type="email"],
+  .input-field input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    color: #000000;
+  }
+  
+  .input-field input[type="text"]:focus,
+  .input-field input[type="email"]:focus,
+  .input-field input[type="password"]:focus {
+    outline: none;
+    border-color: #ff0000;
+  }
+  
+  .input-field .error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  

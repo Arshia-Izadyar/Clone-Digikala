@@ -1,0 +1,15 @@
+{% extends "Base.html" %}
+{% block title %}
+Adress management
+{% endblock title %}
+
+
+{% block body %}
+<h1>Adress Update</h1>
+
+<form method="post">
+    {% csrf_token %}    
+    {{form.as_p}}
+    <input type="submit" value="Add">
+</form>
+{% endblock body %}

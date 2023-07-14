@@ -1,0 +1,17 @@
+{% extends "Base.html" %}
+{% block title %}
+Adress management
+{% endblock title %}
+
+
+{% block body %}
+<h1>Adress Delete</h1>
+<h3>deleting address : {{address.title}}</h3>
+<br>
+<p> <b>city:</b> {{address.city}}  <b>State</b>{{address.state}} </p>
+<p>zipcode : {{address.zipcode}}</p>
+<form method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete">
+</form>
+{% endblock body %}

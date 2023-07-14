@@ -35,5 +35,5 @@ class CustomUserAdmin(UserAdmin):
     
 @admin.register(UserAddress)
 class UserAddressAdmin(admin.ModelAdmin):
-    list_display = ('user', 'address', 'city', 'state', 'zipcode')
+    list_display = ('id','user', 'address', 'city', 'state', 'zipcode')
     list_filter = ('user', 'city', 'state', 'zipcode')
