@@ -10,6 +10,7 @@ from django.shortcuts import render
 
 from .models import Product, Category
 from .forms import AddReviewForm, AddWishListForm
+from basket.forms import AddToBasketForm
 
 
 # home view for products and detail view
@@ -50,6 +51,7 @@ class ProductDetailView(DetailView):
         context["reviews"] = product.reviews.all()
         context["avg_rate"] = product.avg_rate
         context["add_review_form"] = AddReviewForm()
+        context["add_to_basket"] = AddToBasketForm({"product":product.id, "quantity":1})
         return context
     
 # review and wishlist

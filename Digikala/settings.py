@@ -28,8 +28,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
+    
     "account.apps.AccountConfig",
     "product.apps.ProductConfig",
+    "basket.apps.BasketConfig",
     
     
     # 3erd party apps

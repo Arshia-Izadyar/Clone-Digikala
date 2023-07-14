@@ -21,6 +21,18 @@ Product Details
 <p>{{review.user.username}} rate({{review.rate}}): {{review.comment}}</p>
 {% endfor %}
 
+<h2>Add To Basket</h2>
+<form method="post" action="{% url 'basket:add' %}">
+    {% csrf_token %}
+    {{add_to_basket}}
+    <input type="hidden" name="next" value="{{product.get_absolute_url}}">
+    <button type="submit">Add to basket</button>
+</form>
+
+
+
+
+
 <h2>Add Reviews</h2>
 <form method="post" action="{% url 'product:review' product.pk %}">
     {% csrf_token %}
