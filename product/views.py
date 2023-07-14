@@ -67,4 +67,23 @@ class AddReviewView(DetailView):
             review.save()
         return HttpResponseRedirect(obj.get_absolute_url())
     
+
+
+
+class CategoryFilter(FilterSet):
+    class Meta:
+        model = Product
+        fields = {"title": ["contains"], "provider": ["exact"], "is_active":  ["exact"]}
+
+
+class CategoryListView(FilterView):
+    filterset_class = CategoryFilter
+    model = Product
+    context_object_name = 'products'
+    paginate_by = 10
+    template_name = "products/category.html"
+    
+    def get_queryset(self):
+        slug = self.kwargs["category"]
+        return Product.objects.filter(category__slug=slug).annotate(avg_rate=Avg("reviews__rate")).order_by("title")
     

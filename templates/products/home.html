@@ -12,6 +12,8 @@
   </form>
 
 {% for product in products %}
-<p>Title: {{product.title}} Price:{{product.price}} Category: {{product.category}} Avg_rate: {{product.avg_rate|round}} </p>
+<p>Title: <a href="{% url 'product:detail' product.pk %}">{{product.title}}</a> 
+Price:{{product.price}} Category: {{product.category}} Avg_rate: {{product.avg_rate|round}}
+</p>
 {% endfor %}
 {% endblock body %}

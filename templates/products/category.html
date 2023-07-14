@@ -1,0 +1,21 @@
+{% extends "Base.html" %}
+
+{% block title %}
+Category View
+{% endblock title %}
+
+{% block body %}
+<h1> Category View</h1>
+<form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Apply Filters</button>
+  </form>
+
+{% for product in products %}
+
+<li>
+<a href="{% url 'product:detail' pk=product.pk %}">{{product.title}} Rate: {{product.avg_rate}}</a>
+</li>
+
+{% endfor %}
+{% endblock body %}
