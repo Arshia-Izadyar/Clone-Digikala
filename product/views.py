@@ -1,13 +1,14 @@
 from django.shortcuts import HttpResponseRedirect
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from django.db.models import Avg, Q
 from django_filters import FilterSet
 from django_filters.views import FilterView
 from django.contrib.auth.decorators import  login_required
 from django.utils.decorators import method_decorator
+from django.shortcuts import render
 
 
-from .models import Product
+from .models import Product, Category
 from .forms import AddReviewForm
 
 
@@ -87,3 +88,9 @@ class CategoryListView(FilterView):
         slug = self.kwargs["category"]
         return Product.objects.filter(category__slug=slug).annotate(avg_rate=Avg("reviews__rate")).order_by("title")
     
+    
+class CategoryList(ListView):   # just to show the list of categories in one page for the user
+    template_name = "products/category_list.html"
+    context_object_name = "categories"
+    queryset = Category.objects.all()
+

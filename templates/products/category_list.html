@@ -1,0 +1,18 @@
+{% extends "Base.html" %}
+{% block title %}
+Category List
+{% endblock title %}
+
+{% block body %}
+<h1>Category List</h1>
+{% for category in categories %}
+
+<li>
+    <a href="{% url 'product:category' category.slug %}">
+        {{ category.title }}
+    </a>
+
+</li>
+
+{% endfor %}
+{% endblock body %}
