@@ -14,9 +14,12 @@ User Profile
 <p>phone: <strong>{{ user.phone_number }}</strong></p>
 <br>
 <h3>Address list</h3>
+<button> <a href="{% url 'account:address-create'%}">Add Adress</a> </button>
 {% for addr in user_address %}
     <p><strong> {{ addr.title }} </strong> </p>
     <p> state: {{addr.state}} zipcode: {{addr.zipcode}} adress: {{ addr.address }}</p>
+    <button> <a href="{% url 'account:address-update' addr.pk %}">Update</a> </button>
+    <button> <a href="{% url 'account:address-delete' addr.pk %}">Delete</a> </button>
 {% endfor %}
 
 <h3> Wish list</h3>
