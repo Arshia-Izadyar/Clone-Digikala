@@ -8,8 +8,8 @@ User = get_user_model()
 
 class IsActiveManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
-        return super().get_queryset(*args, **kwargs).select_related("category", "brand")
-
+        return super().get_queryset(*args, **kwargs)
+    
     def active(self, *args, **kwargs):
         return self.get_queryset(*args, **kwargs).filter(is_active=True)
 
@@ -36,13 +36,14 @@ class Provider(models.Model):
     
 
 class Product(models.Model):
-    category = models.ForeignKey(_("Category"), Category, on_delete=models.PROTECT, related_name="categories")
-    provider = models.ForeignKey(_("Provider"), Provider, on_delete=models.PROTECT, related_name="providers")
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="categories")
+    provider = models.ForeignKey(Provider, on_delete=models.PROTECT, related_name="providers")
     
     title = models.CharField(_("Title"), max_length=50)
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
     description = models.TextField(_("Description"), null=True, blank=True)    
     is_active = models.BooleanField(_("Is Active"), default=True)
+    uuid = models.CharField(max_length=20, unique=True)
     
     image = models.ImageField(_("Image"), upload_to='./products', null=True, blank=True)
     
@@ -54,18 +55,19 @@ class Product(models.Model):
     
 
 class WishList(models.Model):
-    user = models.ForeignKey(_("User"), User, on_delete=models.CASCADE, related_name="wishlists")
-    product = models.ForeignKey(_("Product"), Product, on_delete=models.CASCADE, related_name="wishlists")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlists")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="wishlists")
     
     def __str__(self) -> str:
         return self.user.username + " - " + self.product.title
 
 class Review(models.Model):
-    user = models.ForeignKey(_("User"), User, on_delete=models.CASCADE, related_name="reviews")
-    product = models.ForeignKey(_("Product"), Product, on_delete=models.CASCADE, related_name="reviews")  
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")  
     
     comment = models.TextField(_("Comments") ,null=True)
     rate = models.IntegerField(_("Rate") ,validators=[validate_rate])
+    is_validated = models.BooleanField(_("Is Validated"), default=False)
     
     def __str__(self):
         return self.user.username + " - " + self.product.title + " - " + str(self.rate)
