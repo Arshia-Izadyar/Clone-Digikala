@@ -3,11 +3,11 @@ from django.contrib import admin
 from .models import Product, Review, Provider, Category
 
 
-# @admin.register(Product)
-# class ProductAdmin(admin.ModelAdmin):
-#     list_display = ('id', 'title', 'description', 'price', 'uuid')
-#     list_filter = ('is_active',)
-#     list_select_related = ('category',)
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'description', 'price', 'uuid')
+    list_filter = ('is_active',)
+    list_select_related = ('category',)
     
     
 @admin.register(Review)
@@ -22,7 +22,3 @@ class ProviderAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'title')
     
-
-@admin.register(Product)
-class ProdAdmin(admin.ModelAdmin):
-    list_display = ('title', )

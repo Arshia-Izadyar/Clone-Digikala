@@ -1,0 +1,10 @@
+{% extends "Base.html" %}  
+{% block title %}Home Page{% endblock title %}
+{% block body %}
+<h1> Home Page </h1> 
+<h2> Top products </h2>
+
+{% for product in products %}
+<p>Title: {{product.title}} Price:{{product.price}} Category: {{product.category}}</p>
+{% endfor %}
+{% endblock body %}
