@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from .views import UserProfile, UserCreateAddress, UserUpdateAddress, UserDeleteAddress
 
@@ -9,6 +9,7 @@ urlpatterns = [
     path('profile/addr/', UserCreateAddress.as_view(), name='address-create'),
     path('profile/addr/<int:pk>/update/', UserUpdateAddress.as_view(), name='address-update'),
     path('profile/addr/<int:pk>/delete/', UserDeleteAddress.as_view(), name='address-delete'),
+    # path('accounts/', include('allauth.urls')),
     
 
     
