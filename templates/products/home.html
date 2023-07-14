@@ -1,10 +1,17 @@
 {% extends "Base.html" %}  
+
+{% load product_extras %}
 {% block title %}Home Page{% endblock title %}
 {% block body %}
 <h1> Home Page </h1> 
 <h2> Top products </h2>
 
+<form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Apply Filters</button>
+  </form>
+
 {% for product in products %}
-<p>Title: {{product.title}} Price:{{product.price}} Category: {{product.category}}</p>
+<p>Title: {{product.title}} Price:{{product.price}} Category: {{product.category}} Avg_rate: {{product.avg_rate|round}} </p>
 {% endfor %}
 {% endblock body %}

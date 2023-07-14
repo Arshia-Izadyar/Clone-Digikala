@@ -1,0 +1,31 @@
+{% extends "Base.html" %}   
+{% load product_extras %}
+
+{% block title %}
+Product Details
+{% endblock title %}
+
+{% block body %}
+<h1>{{product.title}}</h1>
+<h3> Avg Rate : {{avg_rate|round}} </h3>
+
+<h2> Details </h2>
+
+<p>Price: {{product.price}}</p>
+<p>Description: {{product.description}}</p>
+<p>Category: {{product.category}}</p>
+<p>Provider: {{product.provider}}</p>
+
+<h2>Reviews</h2>
+{% for review in reviews %}
+<p>{{review.user.username}} rate({{review.rate}}): {{review.comment}}</p>
+{% endfor %}
+
+<h2>Add Reviews</h2>
+<form method="post" action="{% url 'product:review' product.pk %}">
+    {% csrf_token %}
+    {{add_review_form.as_p}}
+    <input type="submit" value="Add Review">
+
+</form>
+{% endblock body %}

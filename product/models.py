@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
+from django.urls import reverse
 
 from lib.validators import validate_rate
 
@@ -52,6 +53,9 @@ class Product(models.Model):
     def __str__(self):
         return self.title + " - " + self.category.title + " - " + self.provider.name
     
+    def get_absolute_url(self):
+        return reverse('product:detail', kwargs={'pk': self.pk})
+    
     
 
 class WishList(models.Model):
@@ -74,3 +78,5 @@ class Review(models.Model):
     
     class Meta:
         unique_together = ["user", "product"]
+        
+
