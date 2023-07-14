@@ -67,8 +67,13 @@ class WishList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlists")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="wishlists")
     
+        
+    class Meta:
+        unique_together = ["user", "product"]
+    
     def __str__(self) -> str:
         return self.user.username + " - " + self.product.title
+
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews")

@@ -17,8 +17,9 @@ class User(AbstractUser):
     email = models.EmailField(_("E-mail"), unique=True)
     phone_number = models.CharField(_("Phone number "), max_length=12, unique=True)
     is_admin = models.BooleanField(_("Admin status"), default=False) 
-    user_score = models.PositiveIntegerField(_("User score"), default=0)
+    score = models.PositiveIntegerField(_("User score"), default=0)
     user_type = models.PositiveSmallIntegerField(_("User type"), choices=user_type, default=CONSUMER)
+    
     
     
     is_staff = models.BooleanField(
@@ -49,6 +50,8 @@ class UserAddress(models.Model):
     title = models.CharField(_("Title"), max_length=40)
     zipcode = models.CharField(_("Zip code"), max_length=10)
     address = models.TextField(_("Address"))
+    city = models.CharField(_("City"), max_length=40, default="Tehran")
+    state = models.CharField(_("State"), max_length=40, default="Tehran")
     decription = models.TextField(_("Description"))
     
     def __str__(self):

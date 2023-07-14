@@ -28,4 +28,11 @@ Product Details
     <input type="submit" value="Add Review">
 
 </form>
+
+<h2>Add To Wishlist (liked products)</h2>
+
+<form method="post" action="{% url 'product:add-wishlist' product.pk %}">
+    {% csrf_token %}
+    <input type="submit" value="Add To Wishlist">
+</form>
 {% endblock body %}

@@ -9,8 +9,10 @@ from django.shortcuts import render
 
 
 from .models import Product, Category
-from .forms import AddReviewForm
+from .forms import AddReviewForm, AddWishListForm
 
+
+# home view for products and detail view
 
 class HomeFilter(FilterSet):
     class Meta:
@@ -50,6 +52,8 @@ class ProductDetailView(DetailView):
         context["add_review_form"] = AddReviewForm()
         return context
     
+# review and wishlist
+
 class AddReviewView(DetailView):
     model = Product
     
@@ -68,8 +72,27 @@ class AddReviewView(DetailView):
             review.save()
         return HttpResponseRedirect(obj.get_absolute_url())
     
+    
+
+class WishlistView(DetailView):
+    model = Product
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        form = AddWishListForm(request.POST)
+        obj = self.get_object()
+        if form.is_valid():
+            wishlist = form.save(commit=False)
+            wishlist.product = obj
+            wishlist.user = request.user
+            wishlist.save()
+        return HttpResponseRedirect(obj.get_absolute_url())
 
 
+# Category
 
 class CategoryFilter(FilterSet):
     class Meta:
@@ -93,4 +116,5 @@ class CategoryList(ListView):   # just to show the list of categories in one pag
     template_name = "products/category_list.html"
     context_object_name = "categories"
     queryset = Category.objects.all()
+
 

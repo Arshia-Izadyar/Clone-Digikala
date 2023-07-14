@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import User
+from .models import User, UserAddress
 
 
 @admin.register(User)
@@ -31,3 +31,9 @@ class CustomUserAdmin(UserAdmin):
          ),
     )
     
+    
+    
+@admin.register(UserAddress)
+class UserAddressAdmin(admin.ModelAdmin):
+    list_display = ('user', 'address', 'city', 'state', 'zipcode')
+    list_filter = ('user', 'city', 'state', 'zipcode')

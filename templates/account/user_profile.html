@@ -1,0 +1,35 @@
+{% extends "Base.html" %}
+{% block title %}
+User Profile
+{% endblock title %}
+
+{% block body %}
+<h1>User Profile</h1>
+<h2> Hello {{ user.username }}! </h2>
+<p> date joined : {{ user.date_joined }} </p>
+<p> user score : {{ user.score }} </p>
+<br>
+<h3>contact info </h3>
+<p>E-mail: <strong>{{ user.email }}</strong></p>
+<p>phone: <strong>{{ user.phone_number }}</strong></p>
+<br>
+<h3>Address list</h3>
+{% for addr in user_address %}
+    <p><strong> {{ addr.title }} </strong> </p>
+    <p> state: {{addr.state}} zipcode: {{addr.zipcode}} adress: {{ addr.address }}</p>
+{% endfor %}
+
+<h3> Wish list</h3>
+{% for wish in wishlists %}
+<li>
+    <p><strong> <a href="{% url 'product:detail' wish.product.pk %}">{{ wish.product.title }}</a> Price: {{wish.product.price}} </strong> </p>
+</li>
+{% endfor %}
+
+<h2>Comments</h2>
+{% for review in reviews %}
+
+<p> <strong>{{ review.product.title}} :</strong> Rate: {{review.rate}} Comment : {{ review.comment}}</p> 
+
+{% endfor %}
+{% endblock body %}
