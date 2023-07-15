@@ -28,10 +28,14 @@ Basket
     <input type="submit" value="remove" />
 </form>
 {% endfor %}
-<br>
-<form method="post" action="{% url 'transaction:create' basket_id=basket.pk %}">
+<form method="POST" action="{% url 'basket:delete' %}">
     {% csrf_token %}
-    <input type="submit" value="checkout">
+    <input type="submit" value="Delete basket">
 </form>
+<br>
+<form method="get" action="{% url 'shipping:create' basket_id=basket.pk %}">
+    <input type="submit" value="Proceed to cheackout">
+</form>
+
 
 {% endblock body %}
