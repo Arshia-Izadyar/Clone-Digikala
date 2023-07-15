@@ -28,6 +28,7 @@ Basket
     <input type="submit" value="remove" />
 </form>
 {% endfor %}
+<br>
 <form method="POST" action="{% url 'basket:delete' %}">
     {% csrf_token %}
     <input type="submit" value="Delete basket">

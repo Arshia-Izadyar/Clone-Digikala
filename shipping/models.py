@@ -33,6 +33,9 @@ class Shipping(models.Model):
         return self.user.username
     
 class ShippingItem(models.Model):
-    shipping = models.ForeignKey(Shipping, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE) 
+    shipping = models.ForeignKey(Shipping, on_delete=models.CASCADE, related_name='shipping_line')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='shipping_line') 
     quantity = models.PositiveIntegerField(default=1)
+    
+    def __str__(self):
+        return self.product.title
