@@ -37,7 +37,7 @@ class Transaction(models.Model):
     type = models.PositiveSmallIntegerField(choices=transaction_type, default=PURCHASE)
     status = models.PositiveSmallIntegerField(choices=transaction_status, default=NOT_PAID)
     created_date = models.DateTimeField(auto_now_add=True)
-    invoice_number = models.UUIDField(max_length=140 , default=uuid.uuid4())
+    invoice_number = models.UUIDField(max_length=140 , default=uuid.uuid4)
     basket = models.ForeignKey(Basket, related_name="transactions", on_delete=models.CASCADE)
     
     

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from product.models import Product
+from shipping.models import ShippingItem
 
 User = get_user_model()
 
@@ -44,13 +45,19 @@ class Basket(models.Model):
             basket = cls.objects.create()
         else:
             try:
-                basket = cls.objects.filter(pk=basket_id).first()
+                basket = cls.objects.filter(pk=basket_id, is_paid=False).first()
             except cls.DoesNotExist:
                 basket = None
         return basket
+    
+    def add_to_shipping(self, shipping):
+        for line in self.lines.all():
+            ShippingItem.objects.create(shipping=shipping, product=line.product, quantity=line.quantity)
 
     def __str__(self):
         return str(self.user)
+    
+    
 
 
 class BasketLine(models.Model):

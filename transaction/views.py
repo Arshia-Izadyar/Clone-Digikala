@@ -7,6 +7,7 @@ from django.views import View
 
 from basket.models import Basket
 from .models import Transaction
+from shipping.forms import ShippingForm
 
 
 class CreateTransaction(LoginRequiredMixin, View):
@@ -31,3 +32,17 @@ class CreateTransaction(LoginRequiredMixin, View):
                     return render(request, self.template_name, {"transaction": transaction, "lines": lines})    
         raise Http404
         
+
+class GateWayConfirm(LoginRequiredMixin, View):
+    # i dont have payment gateway so we skip the payment in gateway 
+    # we assume that the program claimed th transaction from gateway 
+    template_name = "transaction/confirm_transaction.html"
+    def post(self, request, invoice_id):
+        transaction = Transaction.objects.get(invoice_number=invoice_id)
+        if request.user == transaction.user:
+            transaction.basket.is_paid = True
+            transaction.status = 10
+        else:
+            raise Http404
+        
+        return render(request, self.template_name, {"transaction": transaction, "form":ShippingForm})  

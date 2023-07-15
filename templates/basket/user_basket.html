@@ -29,7 +29,7 @@ Basket
 </form>
 {% endfor %}
 <br>
-<form method="post" action="{% url 'trans:create' basket_id=basket.pk %}">
+<form method="post" action="{% url 'transaction:create' basket_id=basket.pk %}">
     {% csrf_token %}
     <input type="submit" value="checkout">
 </form>
