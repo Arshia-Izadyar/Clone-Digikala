@@ -20,7 +20,7 @@ class Shipping(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_shipping")
     sending_date = models.DateField()
     delivery_method = models.PositiveSmallIntegerField(choices=methods, default=2)
-    
+    is_deliverd = models.BooleanField(default=False)
     
 class ShippingItem(models.Model):
     shipping = models.ForeignKey(Shipping, on_delete=models.CASCADE, related_name='items')

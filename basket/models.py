@@ -57,8 +57,6 @@ class Basket(models.Model):
     def __str__(self):
         return str(self.user)
     
-    
-
 
 class BasketLine(models.Model):
     quantity = models.PositiveSmallIntegerField(default=1)
