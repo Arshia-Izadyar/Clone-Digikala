@@ -8,5 +8,7 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     path('accounts/', include('allauth.urls')),
     path("basket/", include("basket.urls")),
+    path('transaction/', include("transaction.urls"))
+
 
 ]

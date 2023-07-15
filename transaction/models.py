@@ -7,8 +7,11 @@ from django.core.exceptions import ValidationError
 
 from django.contrib.auth import get_user_model
 
+import uuid 
+
 User = get_user_model()
 
+    
 class Transaction(models.Model):
     PAID = 10
     PENDING = 0
@@ -33,6 +36,11 @@ class Transaction(models.Model):
     type = models.PositiveSmallIntegerField(choices=transaction_type, default=PURCHASE)
     status = models.PositiveSmallIntegerField(choices=transaction_status, default=NOT_PAID)
     created_date = models.DateTimeField(auto_now_add=True)
+    invoice_number = models.UUIDField(max_length=150, verbose_name=_('invoice number'), default=uuid.uuid4())
+    
+    
+    def __str__(self):
+        return f"{self.user.username} > {self.status} > {self.amount}"
     
     @classmethod
     def get_user_report(cls, usr):
@@ -50,19 +58,12 @@ class Transaction(models.Model):
         else:
             raise ValidationError(f"cannot transfer {amount}")
 
-
-class UserScore(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_score")
-    score = models.IntegerField(default=0)
-
             
     @classmethod
     def calc_score(cls, usr):
         with transaction.atomic():
-            try:
-                obj = cls.objects.select_for_update().get(user=usr)
-            except ObjectDoesNotExist:
-                obj = cls.objects.create(user=usr)
+            
+            obj = User.objects.select_for_update().get(username=usr.username)
             total = User.objects.filter(username=usr.username).aggregate(
                 total=Sum("transactions__amount", filter=Q(transactions__type=Transaction.PURCHASE))
             )['total']
@@ -72,8 +73,9 @@ class UserScore(models.Model):
             else:
                 score = (total / 10) * 5
             obj.score = score
-            print(score)
+           
             obj.save() 
+            
                 
             
 class Wallet(models.Model):
@@ -95,5 +97,4 @@ class Wallet(models.Model):
                 obj.total = 0
             obj.save()
     
-
 
