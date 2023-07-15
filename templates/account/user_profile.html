@@ -9,6 +9,7 @@ User Profile
 <p> date joined : {{ user.date_joined }} </p>
 <p> user score : {{ user.score }} </p>
 <p> Password <a href="{% url 'account:account_change_password' %}">Change</a></p>
+<p> Password <a href="{% url 'account_reset_password' %}">Reset</a> </p>
 <br>
 <h3>contact info </h3>
 <p>E-mail: <strong>{{ user.email }}</strong></p>
