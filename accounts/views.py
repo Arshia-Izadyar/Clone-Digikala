@@ -84,3 +84,10 @@ class UserDeleteAddress(LoginRequiredMixin, DeleteView):
         success_url = self.get_success_url()
         self.object.delete()
         return HttpResponseRedirect(success_url)
+    
+    
+    
+from allauth.account.views import PasswordChangeView
+
+class CustomPasswordChangeView(PasswordChangeView):
+    success_url = '/'

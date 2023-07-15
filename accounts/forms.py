@@ -45,3 +45,4 @@ class MyCustomSignupForm(SignupForm):
         user.save()
 
         return user
+    
