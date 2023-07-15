@@ -5,6 +5,7 @@ from django.utils.translation import gettext as _
 
 from product.models import Product
 from lib.validators import validated_date
+from accounts.models import UserAddress
 
 User = get_user_model()
 
@@ -23,6 +24,8 @@ class Shipping(models.Model):
     sending_date = models.DateField(validators=[validated_date])
     delivery_method = models.PositiveSmallIntegerField(choices=methods, default=2)
     is_deliverd = models.BooleanField(default=False)
+    user_address = models.ForeignKey(UserAddress, on_delete=models.CASCADE, related_name="shippings",  default=None)
+    #TODO: add user address to db
     
     
     
