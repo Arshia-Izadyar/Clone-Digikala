@@ -7,6 +7,7 @@ User = get_user_model()
 class Basket(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_baskets", null=True, blank=True)
     created_time = models.DateTimeField(auto_now_add=True)
+    is_paid = models.BooleanField(default=False)
 
     def add_product(self, product, amount=1):
         line, created = self.lines.get_or_create(product=product, defaults={"quantity": int(amount)})

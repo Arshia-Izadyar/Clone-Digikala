@@ -85,7 +85,7 @@ WSGI_APPLICATION = "Digikala.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'digikala2', 
+        'NAME': 'digikala3', 
         'USER': 'arshia', 
         'PASSWORD': 'a123',
         'HOST': '127.0.0.1', 

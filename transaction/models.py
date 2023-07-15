@@ -9,6 +9,7 @@ from django.contrib.auth import get_user_model
 
 import uuid 
 
+from basket.models import Basket
 User = get_user_model()
 
     
@@ -36,7 +37,8 @@ class Transaction(models.Model):
     type = models.PositiveSmallIntegerField(choices=transaction_type, default=PURCHASE)
     status = models.PositiveSmallIntegerField(choices=transaction_status, default=NOT_PAID)
     created_date = models.DateTimeField(auto_now_add=True)
-    invoice_number = models.UUIDField(max_length=150, verbose_name=_('invoice number'), default=uuid.uuid4())
+    invoice_number = models.UUIDField(max_length=140 , default=uuid.uuid4())
+    basket = models.ForeignKey(Basket, related_name="transactions", on_delete=models.CASCADE)
     
     
     def __str__(self):

@@ -15,21 +15,19 @@ class CreateTransaction(LoginRequiredMixin, View):
 
     def post(self, request, basket_id):
         basket = Basket.objects.get(pk=basket_id)
+        lines = basket.lines.all()
+        total = sum([line.product.price * line.quantity for line in lines])
 
         transaction = Transaction.objects.filter(user=request.user, status=Transaction.PENDING).first()
         if basket.user == request.user:
-            if transaction:
-                lines = basket.lines.all()
-                total = sum([line.product.price * line.quantity for line in lines])
-                if total > 0:
-                    transaction.amount = total
-                    transaction.save()
-                    return render(request, self.template_name, {"transaction": transaction})
+            if transaction and total > 0:
+                transaction.amount = total
+                transaction.save()
+                return render(request, self.template_name, {"transaction": transaction, "lines": lines})
             else:
-                lines = basket.lines.all()
-                total = sum([line.product.price * line.quantity for line in lines])
+
                 if total > 0:
-                    transaction = Transaction.objects.create(user=request.user, amount=total, status=Transaction.PENDING)
-                    return render(request, self.template_name, {"transaction": transaction})    
+                    transaction = Transaction.objects.create(user=request.user, amount=total, status=Transaction.PENDING, basket=basket)
+                    return render(request, self.template_name, {"transaction": transaction, "lines": lines})    
         raise Http404
         

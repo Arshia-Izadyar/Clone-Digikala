@@ -5,5 +5,19 @@ Transaction
 
 {% block body %}
 <h1>Invoice</h1>
-{{transaction}}
+
+<h2> Deatails </h3>
+    <br>
+    <p><b>Amount: </b> {{transaction.amount}}</p>
+    <p><b>User: </b> {{transaction.user.username}}</p>
+    <p><b>Created Date: </b> {{transaction.created_date}}</p>
+    <p><b>Status: </b> {{transaction.get_status_display}}</p>
+    <p><b>Type: </b> {{transaction.get_type_display}}</p>
+    <br>
+    <h3> products </h3>
+    {% for line in lines %}
+        <p><b>Product:</b> {{line.product.title}} Price: {{line.product.price}} ({{line.quantity}})</p>
+    
+    {% endfor %}
+
 {% endblock body %}

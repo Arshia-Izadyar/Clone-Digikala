@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
 from django.urls import reverse
 
+import uuid
+
 from lib.validators import validate_rate
 
 User = get_user_model()
@@ -49,7 +51,7 @@ class Product(models.Model):
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
     description = models.TextField(_("Description"), null=True, blank=True)    
     is_active = models.BooleanField(_("Is Active"), default=True)
-    uuid = models.CharField(max_length=20, unique=True)
+    uuid = models.CharField(max_length=150, unique=True, default=uuid.uuid4())
     
     image = models.ImageField(_("Image"), upload_to='./products', null=True, blank=True)
     
