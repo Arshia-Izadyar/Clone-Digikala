@@ -134,6 +134,14 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'
+ACCOUNT_MAX_EMAIL_ADDRESSES = 1
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE  =True
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
+# ACCOUNT_PASSWORD_INPUT_RENDER_VALUE
+ACCOUNT_USERNAME_BLACKLIST = ["admin", "staff", "user", "null", "nil"]
+ACCOUNT_USERNAME_MIN_LENGTH = 3
 
 AUTHENTICATION_BACKENDS = [
 
@@ -156,3 +164,17 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+ACCOUNT_FORMS = {'signup': 'accounts.forms.MyCustomSignupForm'}
+
+
+
+DEFAULT_FROM_EMAIL = "arshiaa106@gmail.com"
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "arshiaa106@gmail.com"
+EMAIL_HOST_PASSWORD = "bnjaulxtrjcctxag"
+EMAIL_USE_TLS = True
