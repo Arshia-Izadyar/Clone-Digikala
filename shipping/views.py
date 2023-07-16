@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict
 from django.db.models.query import QuerySet
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -15,6 +15,12 @@ from basket.models import Basket
 class CreateShipping(LoginRequiredMixin, FormView):
     form_class = ShippingForm
     template_name = "shipping/add_shipping.html"
+    
+    def get_form_kwargs(self):
+        
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
         shipping = form.save(commit=False)

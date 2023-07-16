@@ -51,4 +51,4 @@ class UserAddress(models.Model):
     decription = models.TextField(_("Description"))
 
     def __str__(self):
-        return f" {self.title} > {self.zipcode} > {self.user.username}"
+        return f" Title : {self.title} - zipode {self.zipcode} - City {self.city}"
