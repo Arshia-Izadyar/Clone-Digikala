@@ -33,7 +33,7 @@ every user can only rate and comment once
 
 users have profile page
 
-every user can change adres list for the account
+every user can change address list for the account
 
 CDRUD is possible on user Addresses 
 
