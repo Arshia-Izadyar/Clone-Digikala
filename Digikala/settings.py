@@ -1,6 +1,9 @@
 from pathlib import Path
 import os
 
+from .local_conf import KEY, DEBUG, DB_NAME, DB_PASS, DB_USER, EMAIL_HOST_PASSWORD, EMAIL_HOST,\
+    GITHUB_SECRET, GITHUB_ID, GOOGLE_CLIENT, GOOGLE_SECRET, GOOGLE_KEY
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -9,10 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-boug4qnwh#09kdz2u_wzdjje&1fxfn)@5n7zsx3ahit#fk50ly"
-
+SECRET_KEY = KEY
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["*"]
 
@@ -28,6 +30,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    #   local apps
     "accounts.apps.AccountConfig",
     "product.apps.ProductConfig",
     "basket.apps.BasketConfig",
@@ -82,9 +85,9 @@ WSGI_APPLICATION = "Digikala.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "digikala3",
-        "USER": "arshia",
-        "PASSWORD": "a123",
+        "NAME": DB_NAME,
+        "USER": DB_USER,
+        "PASSWORD": DB_PASS,
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
@@ -141,30 +144,41 @@ ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "staff", "user", "null", "nil"]
 ACCOUNT_USERNAME_MIN_LENGTH = 3
 
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/accounts/profile/"
+ACCOUNT_SIGNUP_REDIRECT_URL = "/accounts/profile/"
+
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-
 SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        "APP": {"client_id": "123", "secret": "456", "key": ""}
+    "google":
+        {
+            "APP":
+            {'client_id':GOOGLE_CLIENT,
+             "secret":GOOGLE_SECRET,
+             "key":GOOGLE_KEY
+            }
+        },
+        "github":
+            {
+                "APP":
+                {'client_id':GITHUB_ID,
+                 "secret":GITHUB_SECRET,
+                 }
+            }
     }
-}
 
 ACCOUNT_FORMS = {"signup": "accounts.forms.MyCustomSignupForm"}
 
 
-DEFAULT_FROM_EMAIL = "arshiaa106@gmail.com"
+DEFAULT_FROM_EMAIL = EMAIL_HOST
 
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "arshiaa106@gmail.com"
-EMAIL_HOST_PASSWORD = "bnjaulxtrjcctxag"
+EMAIL_HOST_USER = EMAIL_HOST
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
 EMAIL_USE_TLS = True

@@ -32,7 +32,7 @@ class Basket(models.Model):
 
         return line
 
-    def user_validate(self, user):
+    def user_validate(self, user):      # Validate user that requested the basket 
         if user.is_authenticated:
             if self.user is not None and self.user != user:
                 return False
@@ -44,7 +44,7 @@ class Basket(models.Model):
         return True
 
     @classmethod
-    def get_basket(cls, basket_id):
+    def get_basket(cls, basket_id):     # will retrive basket from id if no basket exists return None
         if basket_id is None:
             basket = cls.objects.create()
         else:
@@ -62,7 +62,7 @@ class Basket(models.Model):
         return str(self.user)
 
 
-class BasketLine(models.Model):
+class BasketLine(models.Model):     # products for basket added here
     quantity = models.PositiveSmallIntegerField(_("Quantity"), default=1)
     product = models.ForeignKey(Product, verbose_name=_("Product"), on_delete=models.CASCADE, related_name="lines")
     basket = models.ForeignKey(Basket, verbose_name=_("Basket"), on_delete=models.CASCADE, related_name="lines")
