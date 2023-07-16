@@ -66,7 +66,8 @@ class Transaction(models.Model):
             if total is None:
                 score = 0
             else:
-                score = (total / 10) * 5
+                score = (total // 10) * 5
+            print(score)
             obj.score = score
 
             obj.save()
@@ -77,7 +78,7 @@ class Wallet(models.Model):
     total = models.PositiveBigIntegerField(default=0, verbose_name=_("Total"))
 
     @classmethod
-    def set_wallet(cls, user):
+    def update_wallet(cls, user):
         with transaction.atomic():
             try:
                 obj = cls.objects.select_for_update().get(user=user)
@@ -89,3 +90,7 @@ class Wallet(models.Model):
             else:
                 obj.total = 0
             obj.save()
+
+# from transaction.models import Wallet
+# from django.contrib.auth import get_user_model
+# User = get_user_model()

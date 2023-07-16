@@ -7,6 +7,8 @@ from django.http import HttpResponseRedirect
 from .forms import UserAddressForm
 from .models import UserAddress
 
+from transaction.models import Wallet, Transaction
+
 User = get_user_model()
 
 
@@ -19,10 +21,13 @@ class UserProfile(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         if not hasattr(self, "user_object"):
-            self.user_object = User.objects.prefetch_related("reviews", "wishlists", "user_address").get(
+            self.user_object = User.objects.prefetch_related("reviews", "wishlists", "user_address", "wallet").get(
                 pk=self.request.user.pk
             )
 
+        Transaction.calc_score(self.user_object)
+        Wallet.update_wallet(self.user_object)
+        context["wallet"] = self.user_object.wallet
         context["user"] = self.user_object
         context["reviews"] = self.user_object.reviews.all()
         context["wishlists"] = self.user_object.wishlists.all()

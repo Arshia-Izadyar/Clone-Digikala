@@ -11,6 +11,8 @@ User Profile
 <p> Password <a href="{% url 'account:account_change_password' %}">Change</a></p>
 <p> Password <a href="{% url 'account_reset_password' %}">Reset</a> </p>
 <br>
+<p><b>Wallet:</b> {{wallet.total}}</p>
+<br>
 <h3>contact info </h3>
 <p>E-mail: <strong>{{ user.email }}</strong></p>
 <p>phone: <strong>{{ user.phone_number }}</strong></p>
