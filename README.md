@@ -17,8 +17,6 @@ users can reset-password, change email and etc.
 
 2 step verification is optional
 
-
-
 ## how does it work 🤔
 
 users can add/remove item to cart
@@ -28,6 +26,8 @@ products can be wishlisted
 comments and rating system is avalibe for products
 
 every user can only rate and comment once 
+
+some pages are cached with **Redis**
 
 ### User profile 🧑‍💻 
 
