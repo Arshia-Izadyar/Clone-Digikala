@@ -29,9 +29,8 @@ class ProductHomeView(FilterView):
     filterset_class = HomeFilter
     template_name = "products/home.html"
     
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(60 * 1))
     def dispatch(self, request, *args, **kwargs):
-        print('loooool')
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -114,6 +113,11 @@ class CategoryListView(FilterView):
     context_object_name = "products"
     paginate_by = 10
     template_name = "products/category.html"
+    
+    @method_decorator(cache_page(60 * 2))
+    def dispatch(self, request, *args, **kwargs):
+        print('loooool')
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         slug = self.kwargs["category"]
