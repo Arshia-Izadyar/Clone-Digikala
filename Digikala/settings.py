@@ -182,3 +182,12 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = EMAIL_HOST
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
 EMAIL_USE_TLS = True
+
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+        "LOCATION": "127.0.0.1:11211",
+    }
+}

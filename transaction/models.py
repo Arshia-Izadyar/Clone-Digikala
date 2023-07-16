@@ -67,7 +67,7 @@ class Transaction(models.Model):
                 score = 0
             else:
                 score = (total // 10) * 5
-            print(score)
+            
             obj.score = score
 
             obj.save()

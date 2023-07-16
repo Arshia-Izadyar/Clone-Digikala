@@ -5,7 +5,7 @@ from django_filters import FilterSet
 from django_filters.views import FilterView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.shortcuts import render
+from django.views.decorators.cache import cache_page
 
 
 from .models import Product, Category
@@ -28,6 +28,11 @@ class ProductHomeView(FilterView):
     paginate_by = 10
     filterset_class = HomeFilter
     template_name = "products/home.html"
+    
+    @method_decorator(cache_page(60 * 15))
+    def dispatch(self, request, *args, **kwargs):
+        print('loooool')
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         qs = super().get_queryset()
