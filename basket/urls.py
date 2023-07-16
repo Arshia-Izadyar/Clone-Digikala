@@ -9,6 +9,4 @@ urlpatterns = [
     path("add/", AddToBasket.as_view(), name="add"),
     path("remove/", RemoveFromBasket.as_view(), name="remove"),
     path("delete/", DeleteBasket.as_view(), name="delete"),
-    
-    
 ]

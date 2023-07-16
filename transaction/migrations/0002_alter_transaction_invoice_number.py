@@ -13,8 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="transaction",
             name="invoice_number",
-            field=models.UUIDField(
-                default=uuid.UUID("367bff4c-49d2-4868-bd48-5e64f06c34a9")
-            ),
+            field=models.UUIDField(default=uuid.UUID("367bff4c-49d2-4868-bd48-5e64f06c34a9")),
         ),
     ]

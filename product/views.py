@@ -3,7 +3,7 @@ from django.views.generic import DetailView, ListView
 from django.db.models import Avg, Q
 from django_filters import FilterSet
 from django_filters.views import FilterView
-from django.contrib.auth.decorators import  login_required
+from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import render
 
@@ -15,20 +15,20 @@ from basket.forms import AddToBasketForm
 
 # home view for products and detail view
 
+
 class HomeFilter(FilterSet):
     class Meta:
         model = Product
         fields = {"title": ["contains"], "category": ["exact"]}
-        
+
 
 class ProductHomeView(FilterView):
     model = Product
-    context_object_name = 'products'
+    context_object_name = "products"
     paginate_by = 10
     filterset_class = HomeFilter
     template_name = "products/home.html"
-    
-    
+
     def get_queryset(self):
         qs = super().get_queryset()
         return (
@@ -43,26 +43,27 @@ class ProductDetailView(DetailView):
     template_name = "products/product_detail.html"
     context_object_name = "product"
     queryset = Product.objects.prefetch_related("reviews").annotate(avg_rate=Avg("reviews__rate"))
-    
+
     def get_context_data(self, **kwargs):
-        
         context = super().get_context_data(**kwargs)
-        product = context['product']
+        product = context["product"]
         context["reviews"] = product.reviews.all()
         context["avg_rate"] = product.avg_rate
         context["add_review_form"] = AddReviewForm()
-        context["add_to_basket"] = AddToBasketForm({"product":product.id, "quantity":1})
+        context["add_to_basket"] = AddToBasketForm({"product": product.id, "quantity": 1})
         return context
-    
+
+
 # review and wishlist
+
 
 class AddReviewView(DetailView):
     model = Product
-    
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
-    
+
     def post(self, request, *args, **kwargs):
         form = AddReviewForm(request.POST)
         obj = self.get_object()
@@ -73,16 +74,15 @@ class AddReviewView(DetailView):
             review.is_validated = True
             review.save()
         return HttpResponseRedirect(obj.get_absolute_url())
-    
-    
+
 
 class WishlistView(DetailView):
     model = Product
-    
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
-    
+
     def post(self, request, *args, **kwargs):
         form = AddWishListForm(request.POST)
         obj = self.get_object()
@@ -96,27 +96,26 @@ class WishlistView(DetailView):
 
 # Category
 
+
 class CategoryFilter(FilterSet):
     class Meta:
         model = Product
-        fields = {"title": ["contains"], "provider": ["exact"], "is_active":  ["exact"]}
+        fields = {"title": ["contains"], "provider": ["exact"], "is_active": ["exact"]}
 
 
 class CategoryListView(FilterView):
     filterset_class = CategoryFilter
     model = Product
-    context_object_name = 'products'
+    context_object_name = "products"
     paginate_by = 10
     template_name = "products/category.html"
-    
+
     def get_queryset(self):
         slug = self.kwargs["category"]
         return Product.objects.filter(category__slug=slug).annotate(avg_rate=Avg("reviews__rate")).order_by("title")
-    
-    
-class CategoryList(ListView):   # just to show the list of categories in one page for the user
+
+
+class CategoryList(ListView):  # just to show the list of categories in one page for the user
     template_name = "products/category_list.html"
     context_object_name = "categories"
     queryset = Category.objects.all()
-
-

@@ -86,9 +86,7 @@ class Migration(migrations.Migration):
                 ("title", models.CharField(max_length=50, verbose_name="Title")),
                 (
                     "price",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Price"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Price"),
                 ),
                 (
                     "description",
@@ -181,9 +179,7 @@ class Migration(migrations.Migration):
                 ("comment", models.TextField(null=True, verbose_name="Comments")),
                 (
                     "rate",
-                    models.IntegerField(
-                        validators=[lib.validators.validate_rate], verbose_name="Rate"
-                    ),
+                    models.IntegerField(validators=[lib.validators.validate_rate], verbose_name="Rate"),
                 ),
                 (
                     "is_validated",

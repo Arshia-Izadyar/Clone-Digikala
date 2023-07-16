@@ -11,38 +11,30 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = UserCreationForm.Meta.fields + ("phone_number",)
 
-        
+
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = User
-        fields = UserChangeForm.Meta.fields 
+        fields = UserChangeForm.Meta.fields
 
 
 class UserAddressForm(forms.ModelForm):
     class Meta:
         model = UserAddress
         fields = ("title", "zipcode", "city", "state", "address", "decription")
-    
-    
-
 
 
 class MyCustomSignupForm(SignupForm):
     phone_number = forms.CharField(
         label=_("Phone Number"),
         min_length=11,
-        widget=forms.TextInput(
-            attrs={"placeholder": _("Phone Number"), "autocomplete": "phone number"}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": _("Phone Number"), "autocomplete": "phone number"}),
     )
-    
 
     def save(self, request):
-
         user = super(MyCustomSignupForm, self).save(request)
 
-        user.phone_number = self.cleaned_data['phone_number']
+        user.phone_number = self.cleaned_data["phone_number"]
         user.save()
 
         return user
-    

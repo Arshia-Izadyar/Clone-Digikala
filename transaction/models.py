@@ -7,43 +7,38 @@ from django.core.exceptions import ValidationError
 
 from django.contrib.auth import get_user_model
 
-import uuid 
+import uuid
 
 from basket.models import Basket
+
 User = get_user_model()
 
-    
+
 class Transaction(models.Model):
     PAID = 10
     PENDING = 0
     NOT_PAID = -10
-    
-    transaction_status = (
-        (PAID, _("paid")),
-        (PENDING, _("pending")),
-        (NOT_PAID, _("Not paid"))
-    )
-    
+
+    transaction_status = ((PAID, _("paid")), (PENDING, _("pending")), (NOT_PAID, _("Not paid")))
+
     CHARGE = 1
     PURCHASE = 2
-    
-    transaction_type = (
-        (PURCHASE, _("Purchase")),
-        (CHARGE, _("Charge"))
+
+    transaction_type = ((PURCHASE, _("Purchase")), (CHARGE, _("Charge")))
+
+    user = models.ForeignKey(
+        User, verbose_name=_("User"), related_name="transactions", on_delete=models.SET("deleted_user")
     )
-    
-    user = models.ForeignKey(User, verbose_name=_("User"), related_name="transactions", on_delete=models.SET("deleted_user"))
     amount = models.DecimalField(verbose_name=_("Amount"), max_digits=11, decimal_places=2)
-    type = models.PositiveSmallIntegerField(choices=transaction_type, default=PURCHASE)
-    status = models.PositiveSmallIntegerField(choices=transaction_status, default=NOT_PAID)
-    created_date = models.DateTimeField(auto_now_add=True)
-    invoice_number = models.UUIDField(max_length=140 , default=uuid.uuid4)
-    basket = models.ForeignKey(Basket, related_name="transactions", on_delete=models.CASCADE)
-    
-    
+    type = models.PositiveSmallIntegerField(verbose_name=_("Type"), choices=transaction_type, default=PURCHASE)
+    status = models.PositiveSmallIntegerField(verbose_name=_("Status"), choices=transaction_status, default=NOT_PAID)
+    created_date = models.DateTimeField(_("Created Date"), auto_now_add=True)
+    invoice_number = models.UUIDField(_("Invoice number"), max_length=140, default=uuid.uuid4)
+    basket = models.ForeignKey(Basket, verbose_name=_("Basket"), related_name="transactions", on_delete=models.CASCADE)
+
     def __str__(self):
         return f"{self.user.username} > {self.status} > {self.amount}"
-    
+
     @classmethod
     def get_user_report(cls, usr):
         positive = Sum("transactions__amount", filter=Q(transactions__type=Transaction.CHARGE))
@@ -60,34 +55,30 @@ class Transaction(models.Model):
         else:
             raise ValidationError(f"cannot transfer {amount}")
 
-            
     @classmethod
     def calc_score(cls, usr):
         with transaction.atomic():
-            
             obj = User.objects.select_for_update().get(username=usr.username)
             total = User.objects.filter(username=usr.username).aggregate(
                 total=Sum("transactions__amount", filter=Q(transactions__type=Transaction.PURCHASE))
-            )['total']
-           
+            )["total"]
+
             if total is None:
                 score = 0
             else:
                 score = (total / 10) * 5
             obj.score = score
-           
-            obj.save() 
-            
-                
-            
+
+            obj.save()
+
+
 class Wallet(models.Model):
     user = models.OneToOneField(User, verbose_name=_("Wallet"), related_name="wallet", on_delete=models.CASCADE)
-    total = models.PositiveBigIntegerField(default=0)
-    
+    total = models.PositiveBigIntegerField(default=0, verbose_name=_("Total"))
+
     @classmethod
     def set_wallet(cls, user):
         with transaction.atomic():
-            
             try:
                 obj = cls.objects.select_for_update().get(user=user)
             except ObjectDoesNotExist:
@@ -98,5 +89,3 @@ class Wallet(models.Model):
             else:
                 obj.total = 0
             obj.save()
-    
-

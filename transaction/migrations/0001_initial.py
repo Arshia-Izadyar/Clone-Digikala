@@ -53,15 +53,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "amount",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=11, verbose_name="Amount"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=11, verbose_name="Amount"),
                 ),
                 (
                     "type",
-                    models.PositiveSmallIntegerField(
-                        choices=[(2, "Purchase"), (1, "Charge")], default=2
-                    ),
+                    models.PositiveSmallIntegerField(choices=[(2, "Purchase"), (1, "Charge")], default=2),
                 ),
                 (
                     "status",
@@ -73,9 +69,7 @@ class Migration(migrations.Migration):
                 ("created_date", models.DateTimeField(auto_now_add=True)),
                 (
                     "invoice_number",
-                    models.UUIDField(
-                        default=uuid.UUID("48619e01-e4c5-4cef-ae1b-cc4b1fb1d5ed")
-                    ),
+                    models.UUIDField(default=uuid.UUID("48619e01-e4c5-4cef-ae1b-cc4b1fb1d5ed")),
                 ),
                 (
                     "basket",
