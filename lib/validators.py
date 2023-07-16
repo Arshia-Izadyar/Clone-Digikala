@@ -11,4 +11,4 @@ def validate_rate(rate):
 
 def validated_date(date):
     if date < datetime.now().date():
-        raise ValidationError(_("Inavlid Date"))
+        raise ValidationError(_("Invalid Date"))
