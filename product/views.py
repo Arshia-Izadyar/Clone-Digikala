@@ -1,5 +1,6 @@
 from django.shortcuts import HttpResponseRedirect
 from django.views.generic import DetailView, ListView
+from django.views import View
 from django.db.models import Avg, Q
 from django_filters import FilterSet
 from django_filters.views import FilterView
@@ -8,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
 
-from .models import Product, Category
+from .models import Product, Category, WishList
 from .forms import AddReviewForm, AddWishListForm
 from basket.forms import AddToBasketForm
 
@@ -96,7 +97,22 @@ class WishlistView(DetailView):
             wishlist.user = request.user
             wishlist.save()
         return HttpResponseRedirect(obj.get_absolute_url())
+    
 
+class RemoveFromWishlistView(View):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        product_id = kwargs.get('product_id')
+        try:
+            wishlist_item = WishList.objects.get(user=request.user, product__id=product_id)
+            wishlist_item.delete()
+        except WishList.DoesNotExist:
+            # Handle the case when the product is not in the user's wishlist
+            pass
+        return HttpResponseRedirect("/")
 
 # Category
 
