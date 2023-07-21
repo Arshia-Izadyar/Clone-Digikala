@@ -1,4 +1,4 @@
-from django.shortcuts import HttpResponseRedirect
+from django.shortcuts import HttpResponseRedirect, get_object_or_404
 from django.views.generic import DetailView, ListView
 from django.views import View
 from django.db.models import Avg, Q
@@ -7,6 +7,7 @@ from django_filters.views import FilterView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.urls import reverse_lazy
 
 
 from .models import Product, Category, WishList
@@ -105,14 +106,13 @@ class RemoveFromWishlistView(View):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        product_id = kwargs.get('product_id')
+        wish_id = kwargs.get('pk')
         try:
-            wishlist_item = WishList.objects.get(user=request.user, product__id=product_id)
-            wishlist_item.delete()
+            wish = WishList.objects.get(pk=wish_id)
+            wish.delete()
         except WishList.DoesNotExist:
-            # Handle the case when the product is not in the user's wishlist
-            pass
-        return HttpResponseRedirect("/")
+            return HttpResponseRedirect("/")
+        return HttpResponseRedirect(reverse_lazy("account:profile"))
 
 # Category
 
